@@ -3,7 +3,9 @@ var AllItems = React.createClass({
     var allItems = this.props.items.map((item) => {
       return (
         <div key={item.id}>
-          <Item removeItem={this.props.removeItem} item={item}/>  
+          <Item removeItem={this.props.removeItem} 
+                handleEdit={this.props.handleEdit} 
+                item={item}/>  
         </div>
       )
     });

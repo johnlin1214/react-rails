@@ -17,6 +17,7 @@ var Body = React.createClass({
       type: "POST",
       data: item,
       success: (response) => {
+        $('#item-form input').val('');
         var updatedItemList = this.state.items.concat(response)
         this.setState({ items: updatedItemList });
       }
@@ -34,11 +35,25 @@ var Body = React.createClass({
       }
     })
   },
+  handleEdit(data) {
+    $.ajax({
+      url: `/api/v1/items/${data.id}`,
+      type: "PUT",
+      data: { item: data },
+      success: (item) => {
+        var items = this.state.items.filter((i) => { return i.id != item.id });
+        items.push(item);
+        this.setState({items: items });
+      }
+    })
+  },
   render() {
     return (
       <div>
         <NewItem handleNewItem={this.addNewItem}/>
-        <AllItems removeItem={this.removeItem} items={this.state.items}/>
+        <AllItems removeItem={this.removeItem} 
+                  handleEdit={this.handleEdit}
+                  items={this.state.items}/>
       </div>
     )
   }
